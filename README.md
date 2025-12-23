@@ -18,7 +18,7 @@
 [GeoServer User Manual » Installation » Docker Container](https://docs.geoserver.org/latest/en/user/installation/docker.html)
 
 <br>
-도커 컴포즈 파일을 생성하세요.
+도커 컴포즈 파일을 작성하세요.
 
 ```yml
 # docker-compose.yml
@@ -37,7 +37,7 @@ services:
 ```
 
 <br>
-도커 컨테이너를 생성하여, GeoServer를 실행하세요.
+도커 컨테이너를 생성하여, GeoServer 를 실행하세요.
 
 ```bash
 docker-compose up -d
@@ -51,7 +51,7 @@ http://localhost:8080/geoserver
 
 <br>
 
-윈도우에 직접 설치하는 방법은 다음을 참고하세요.  
+(참고) 윈도우에 직접 설치하는 방법은 다음을 참고하세요.  
 [GeoServer User Manual » Installation » Windows installer](https://docs.geoserver.org/latest/en/user/installation/win_installer.html)
 
 
