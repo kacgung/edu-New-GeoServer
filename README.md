@@ -14,15 +14,13 @@
 
 ## GeoServer 설치
 
-우선 무작정 데이터를 등록해 봅시다. [GeoServer](http://geoserver.org)가 없다면 설치하세요.
+우선 무작정 데이터를 등록해 봅시다. [GeoServer](http://geoserver.org)가 없다면 설치하세요.  
+[GeoServer User Manual » Installation » Docker Container](https://docs.geoserver.org/latest/en/user/installation/docker.html)
 
-GeoServer 2.28.0 User Manual » Installation » Docker Container
-https://docs.geoserver.org/latest/en/user/installation/docker.html
+<br>
+도커 컴포즈 파일을 작성하세요.
 
-
-
-```xml
-
+```yml
 # docker-compose.yml
 
 services:
@@ -30,7 +28,7 @@ services:
     image: docker.osgeo.org/geoserver:2.28.0
     container_name: geoserver
     ports:
-      - "8060:8080"   # 호스트 8060 → 컨테이너 8080
+      - "8080:8080"   # 호스트 8080 → 컨테이너 8080
     volumes:
       - ./geoserver_data:/opt/geoserver_data
     environment:
@@ -38,12 +36,27 @@ services:
     restart: unless-stopped
 ```
 
-.
+<br>
+도커 컨테이너를 생성하여, GeoServer 를 실행하세요.
+
+```bash
 docker-compose up -d
+```
+
+<br>
+웹 브라우저를 통해서 GeoServer 에 접속하세요.  
+
+http://localhost:8080/geoserver
+
+
+<br>
+
+(참고) 윈도우에 직접 설치하는 방법은 다음을 참고하세요.  
+[GeoServer User Manual » Installation » Windows installer](https://docs.geoserver.org/latest/en/user/installation/win_installer.html)
 
 
 
-</br>
+<br>
 
 ## GeoServer 에 레이어 등록
 
