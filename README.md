@@ -2,6 +2,7 @@
 
 > 인터넷에 공간정보를 서비스하는 GeoServer에 대해 배워보겠습니다.
 
+- [GeoServer 설치](#GeoServer-설치)
 - [GeoServer 에 레이어 등록](#GeoServer-에-레이어-등록)
 - [OGC 웹서비스 이해](#OGC-웹서비스-이해)
 - [레이어 그룹과 스타일](#레이어-그룹과-스타일)
@@ -10,6 +11,10 @@
 - [서비스를 위한 Stack 구성](#서비스를-위한-Stack-구성)
 
 <br/>
+
+## GeoServer 설치
+
+우선 무작정 데이터를 등록해 봅시다. [GeoServer](http://geoserver.org)가 없다면 설치하세요.
 
 ## GeoServer 에 레이어 등록
 
