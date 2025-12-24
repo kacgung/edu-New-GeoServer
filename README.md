@@ -171,7 +171,9 @@ GeoServer가 제공하는 대표적인 공간정보 표준 인터페이스에는
 
 이제 서비스 인터페이스를 중심으로 하나씩 살펴보겠습니다.
 
-### ⬛ Web Map Service (WMS)
+<br>
+
+### Web Map Service (WMS)
 
 - 지도 이미지 등 스타일을 가진 공간데이터를 인터넷으로 서비스하는 표준입니다.
 - 요청방법과 응답형식을 정의하고 있습니다.
@@ -179,31 +181,138 @@ GeoServer가 제공하는 대표적인 공간정보 표준 인터페이스에는
 - 지도요청, 카타로그조회, 속성조회 등이 가능합니다.
 - 필수: GetCapabilities , GetMap 
 - 옵션: GetFeatureInfo, DescribeLayer, GetLegendGraphic   
-https://openlayers.org/en/latest/examples/wms-tiled.html
 
+<br>
 
-### ⬛ Web Feature Service (WFS)
+다음 WMS 예시를 확인해보세요.  
+https://openlayers.org/en/latest/examples/wms-image.html  
 
-- 벡터 형식의 공간정보 피처(Feature: Geometry+attribute)를 인터넷으로 서비스하는 표준입니다.
+<br>
+
+웹 브라우저 > 개발자도구(`F12`)를 활용하여 WMS `Request URL`과 `Preview`를 확인해보세요.  
+`Request URL`은 예시 화면에 있는 자바스크립트 코드를 통해서 만들어집니다.  
+
+```
+https://ahocevar.com/geoserver/wms?
+
+   REQUEST=GetMap
+
+   & SERVICE=WMS
+
+   & VERSION=1.3.0
+
+   & FORMAT=image%2Fpng
+
+   & STYLES=
+
+   & TRANSPARENT=TRUE
+
+   & LAYERS=topp%3Astates
+
+   & WIDTH=658
+
+   & HEIGHT=355
+
+   & CRS=EPSG%3A3857
+
+   & BBOX=-13888944.635145342%2C2867630.7173607955%2C-7451112.364854658%2C6340929.2826392045
+```
+
+<br>
+
+`Request URL` 를 웹 브라우저 새 창에서 실행하면 Response 이미지가 표출 되는 것을 확인 할 수 있습니다.  
+
+```
+https://ahocevar.com/geoserver/wms?REQUEST=GetMap&SERVICE=WMS&VERSION=1.3.0&FORMAT=image%2Fpng&STYLES=&TRANSPARENT=TRUE&LAYERS=topp%3Astates&WIDTH=658&HEIGHT=355&CRS=EPSG%3A3857&BBOX=-13888944.635145342%2C2867630.7173607955%2C-7451112.364854658%2C6340929.2826392045
+```
+
+<br>
+
+### Web Feature Service (WFS)
+
+- 벡터 형식의 공간정보 피처(Feature: Geometry + Attribute)를 인터넷으로 서비스하는 표준입니다.
 - 요청방법과 응답형식을 정의하고 있습니다.
 - 보통 URI로 요청하고 XML, GeoJSON 등으로 응답을 받습니다.
 - 피처요청, 카타로그조회, 속성조회 등이 가능합니다.
 - 필수: GetCapabilities , DescribeFeatureType , GetFeature
-- 옵션: LockFeature, Transaction   
+- 옵션: LockFeature, Transaction  
+
+<br>
+
+다음 WFS 예시를 확인해보세요.  
 https://openlayers.org/en/latest/examples/vector-wfs.html
 
+<br>
 
-### ⬛ Web Coverage Service (WCS)
+웹 브라우저 > 개발자도구(`F12`)를 활용하여 `Request URL`과 `Preview`를 확인해보세요.  
+`Request URL`은 예시 화면에 있는 자바스크립트 코드를 통해서 만들어집니다.  
+
+```
+https://ahocevar.com/geoserver/wfs?
+
+   service=WFS
+
+   & version=1.1.0
+
+   & request=GetFeature
+
+   & typename=osm:water_areas
+
+   & outputFormat=application/json
+
+   & srsname=EPSG:3857
+
+   & bbox=-8942959.082754008,5370452.51819444,-8874815.472037774,5393383.626679991,EPSG:3857
+```
+
+<br>`Request URL` 를 웹 브라우저 새 창에서 실행하면 JSON 형식으로 데이터(Feature: Geometry + Attribute)가 응답 받을 수 있습니다.  
+
+```
+https://ahocevar.com/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=osm:water_areas&outputFormat=application/json&srsname=EPSG:3857&bbox=-8942959.082754008,5370452.51819444,-8874815.472037774,5393383.626679991,EPSG:3857
+```
+
+<br>
+
+### Web Coverage Service (WCS)
 
 - 래스터 형태의 커버리지(좌표가 있는 래스터) 공간데이터를 인터넷으로 서비스하
 는 표준입니다.
 - 요청방법과 응답형식을 정의하고 있습니다.
 - 보통 URI로 요청하고 래스터 파일로 응답을 받습니다.
 - 커버리지요청, 카타로그조회 등이 가능가능합니다.
-- 필수: GetCapabilities , DescribeCoverage , GetCoverage   
-http://demo.mapserver.org/cgi-bin/wcs?SERVICE=wcs&VERSION=1.0.0&REQUEST=GetCoverage&COVERAGE=modis-001&CRS=EPSG:26915&BBOX=159707,4597395,1400707,5501395&WIDTH=400&HEIGHT=300&FORMAT=GEOTIFF_RGB  
+- 필수: GetCapabilities , DescribeCoverage , GetCoverage  
 
-<br/>
+<br>다음 URI를 웹 브라우저 새창에서 실행하세요. 커버리지 데이터가 다운로드 되는 것을 확인 할 수 있습니다.  
+
+```
+http://demo.mapserver.org/cgi-bin/wcs?SERVICE=wcs&VERSION=1.0.0&REQUEST=GetCoverage&COVERAGE=modis-001&CRS=EPSG:26915&BBOX=159707,4597395,1400707,5501395&WIDTH=400&HEIGHT=300&FORMAT=GEOTIFF_RGB  
+```
+
+<br>하나씩 살펴보면 다음과 같습니다.  
+
+```
+http://demo.mapserver.org/cgi-bin/wcs?
+
+   SERVICE=wcs
+
+   & VERSION=1.0.0
+
+   & REQUEST=GetCoverage
+
+   & COVERAGE=modis-001
+
+   & CRS=EPSG:26915
+
+   & BBOX=159707,4597395,1400707,5501395
+
+   & WIDTH=400
+
+   & HEIGHT=300
+
+   & FORMAT=GEOTIFF_RGB
+```
+
+<br>
 
 ## 레이어 그룹과 스타일
 
