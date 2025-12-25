@@ -664,7 +664,7 @@ GeoServer에서 지원하는 지도타일 서버캐시를 GeoWebCache 줄여서 
 <br>
 
 > [!TIP]
-> (도전 2) 나의 GeoServer WMS 서비스 만들기: 다음 코드를 `ol_mygeoserver.html` 으로 작성하고, 웹 브라우저로 실행해보세요
+> (도전 2) 나의 GeoServer WMS 서비스 만들기: 다음 코드를 `ol_mygeoserver.html` 으로 작성하고, 웹 브라우저로 실행해보세요.
 ```html
 <!DOCTYPE html>
 <html lang="ko">
