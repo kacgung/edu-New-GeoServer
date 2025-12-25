@@ -609,18 +609,19 @@ GeoServer에서 지원하는 지도타일 서버캐시를 GeoWebCache 줄여서 
 
 <br>
 
-다음 `OpenLayers` & `GeoServer` 과제에 도전해 보세요.
-(참고: [OpenLayers > Quick Start](https://openlayers.org/doc/quickstart.html))
-
-- 우리가 발행한 `worldmap:worldmap` 레이어 그룹을 WMS로 조회하는 WebGIS를 구현해보세요.
-- `worldmap:worldmap` 레이어 그룹을 GWC로 조회하는 WebGIS를 구현해보세요.
-- 우리가 발행한 `worldmap:ne_110m_admin_0_countries` 레이어를 WFS로 조회하는 WebGIS를 구현해보세요
-
-WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS) 를 확인하세요.
+> [!NOTE]
+> 다음 `OpenLayers` & `GeoServer` 과제에 도전해 보세요.
+> (참고: [OpenLayers > Quick Start](https://openlayers.org/doc/quickstart.html))
+>
+> - 우리가 발행한 `worldmap:worldmap` 레이어 그룹을 WMS로 조회하는 WebGIS를 구현해보세요.
+> - `worldmap:worldmap` 레이어 그룹을 GWC로 조회하는 WebGIS를 구현해보세요.
+> - 우리가 발행한 `worldmap:ne_110m_admin_0_countries` 레이어를 WFS로 조회하는 WebGIS를 구현해보세요
+>
+> WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS) 를 확인하세요.
 
 <br>
 
->[!TIP]
+> [!TIP]
 > (도전 1) 첫 웹 지도 서비스 만들기: 다음 코드를 `ol_osm.html` 으로 작성하고, 웹 브라우저로 실행해보세요
 ```html
 <!DOCTYPE html>
@@ -753,7 +754,7 @@ WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozill
 ```
 <br>
 
-> [!NOTE]
+> [!IMPORTANT]
 > 1. 웹 브라우저 `개발자 도구(F12)` 로 GWC 요청(Request)과 응답(Response)을 확인해보세요.
 > 2. 파일 탐색기로 GeoServer 데이터 폴더에서 GWC 캐시를 확인해보세요. `opt\geoserver\geoserver_data\gwc\`
 
