@@ -753,11 +753,9 @@ WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozill
 <br>
 
 > [!NOTE]
-> 1.
-> 웹 브라우저 `개발자 도구(F12)` 로 GWC 요청(Request)과 응답(Response)을 확인해보세요.  
+> 1. 웹 브라우저 `개발자 도구(F12)` 로 GWC 요청(Request)과 응답(Response)을 확인해보세요.  
 >
-> 2.
-> 파일 탐색기로 GeoServer 데이터 폴더에서 GWC 캐시를 확인해보세요. `opt\geoserver\geoserver_data\gwc\`
+> 2. 파일 탐색기로 GeoServer 데이터 폴더에서 GWC 캐시를 확인해보세요. `opt\geoserver\geoserver_data\gwc\`  
 
 
 <br>
