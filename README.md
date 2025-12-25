@@ -683,7 +683,7 @@ WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozill
   <script>
     const wmsLayer = new ol.layer.Tile({   // WMS 레이어 설정 (GeoServer 로컬 URL)
       source: new ol.source.TileWMS({
-        url: 'http://localhost:8060/geoserver/wms',   // GeoServer WMS 엔드포인트
+        url: 'http://localhost:8080/geoserver/wms',   // GeoServer WMS 엔드포인트
         params: {
           'LAYERS': 'worldmap:worldmap',   // GeoServer에 등록된 레이어 이름
           'TILED': true
@@ -730,7 +730,7 @@ WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozill
   <script>
     const wmsLayer = new ol.layer.Tile({   // WMS 레이어 설정 (GeoServer 로컬 URL)
       source: new ol.source.TileWMS({
-        url: 'http://localhost:8060/geoserver/gwc/service/wms',   // GeoServer WMS 엔드포인트
+        url: 'http://localhost:8080/geoserver/gwc/service/wms',   // GeoServer WMS 엔드포인트
         params: {
           'LAYERS': 'worldmap:worldmap',   // GeoServer에 등록된 레이어 이름
           'SRS': 'EPSG:3857'   // 좌표 참조 시스템 설정
