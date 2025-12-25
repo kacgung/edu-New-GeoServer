@@ -364,19 +364,90 @@ XML 부분을 모두 복사합니다.
 SLD Cookbook으로 다시 가서 Polygon 스타일의 좀 더 아래 부분을 보니 'Polygon with styled label' 부분에 그나마 마음에 드는 예제가 있습니다.
 이 예제의 코드 부분에서 `<Font>` 부분과 `<LabelPlacement>` 부분을 복사해 옵니다.
 
-GeoServer 관리자 화면으로 와서 [스타일] 메뉴에서 world_admin 스타일을 선택해 다시 편집합니다. `</Halo>` 다음에 복사해온 내용을 붙여 넣고, font-family 값을 '맑은 고딕'으로 바꿉니다.
-font-size 값은 '13'으로 바꿉니다.
-스타일 편집기의 XML 중 첫행에 있는 encoding 값을 `CP949`로 바꿉니다.
-[적용하기]를 눌러 반영합니다.
+GeoServer 관리자 화면으로 와서 [스타일] 메뉴에서 world_admin 스타일을 선택해 다시 편집합니다. `</Halo>` 다음에 복사해온 내용을 붙여 넣고, font-size 값은 '13'으로 바꿉니다.
 
-이 때 encoding 값을 CP949로 바꾸는 것은 GeoServer의 버그에 대응하기 위한 일종의 꽁수입니다. 언젠가는 수정되어 다른 방법으로 대응해야 할 지도 모릅니다. 현재는 한글이 SLD에 들어갈 경우 이렇게 대응할 수 밖에 없습니다.   
+font-family 값을 `맑은 고딕`으로 바꿉니다. 스타일 편집기의 XML 중 첫행에 있는 encoding 값을 `CP949`로 바꿉니다. (이 때 encoding 값을 CP949로 바꾸는 것은 GeoServer의 버그에 대응하기 위한 일종의 꽁수입니다. 언젠가는 수정되어 다른 방법으로 대응해야 할 지도 모릅니다. 현재는 한글이 SLD에 들어갈 경우 이렇게 대응할 수 밖에 없습니다.)
+
+GeoServer를 Docker Container로 설치한 경우는 컨테이너에 '맑은 고딕' 폰트가 없어서 다음과 같이 할 수 있습니다. Container에 설치된 폰트를 확인하고, SLD에 적용하는 것입니다.  
+
+Container Bash 실행:
+```
+docker exec -it geoserver bash
+```
+<br>
+
+설치된 폰트 확인:
+```
+fc-list : family
+```
+
+<br>
+
+설치된 폰트를 SLD에 적용하고, [적용하기]를 눌러 반영합니다.  
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<StyledLayerDescriptor version="1.0.0" 
+ xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" 
+ xmlns="http://www.opengis.net/sld" 
+ xmlns:ogc="http://www.opengis.net/ogc" 
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NamedLayer>
+    <Name>world_admin</Name>
+    <UserStyle>
+      <Title>world_admin</Title>
+      <FeatureTypeStyle>
+        <Rule>
+          <Name>rule1</Name>
+          <LineSymbolizer>
+            <Stroke>
+              <CssParameter name="stroke">#888888</CssParameter>
+            </Stroke>
+          </LineSymbolizer>
+
+          <TextSymbolizer>
+            <Label>
+              <ogc:PropertyName>ADMIN</ogc:PropertyName>
+            </Label>
+            <Font>
+              <CssParameter name="font-family">DejaVu Sans</CssParameter>
+              <CssParameter name="font-size">13</CssParameter>
+              <CssParameter name="font-style">normal</CssParameter>
+              <CssParameter name="font-weight">bold</CssParameter>
+            </Font>
+            <LabelPlacement>
+              <PointPlacement>
+                <AnchorPoint>
+                  <AnchorPointX>0.5</AnchorPointX>
+                  <AnchorPointY>0.5</AnchorPointY>
+                </AnchorPoint>
+              </PointPlacement>
+            </LabelPlacement>
+            <Halo>
+              <Radius>3</Radius>
+              <Fill>
+                <CssParameter name="fill">#FFFFFF</CssParameter>
+              </Fill>
+            </Halo>                  
+          </TextSymbolizer>
+
+        </Rule>
+      </FeatureTypeStyle>
+    </UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>
+```
+
+<br>
+
 ![](img/2022-02-02-16-40-31.png)
 
 GeoServer가 사용하고 있는 SLD(Styled Layer Descriptor)는 역시 OGC가 지정한 국제 표준이며, 기술적인 면에서 지도표현에 필요한 내용을 아주 상세히 정의할 수 있습니다.
 
 하지만 지금 해 보셨다시피 이 복잡한 문서를 사람 손으로 수정하는 것이 결코 만만한 작업은 아닙니다. 그래도 처음부터 만들라면 못 하지만, 이미 있는 예를 보고 살짝씩 수정하는 것은 할만 합니다.
 
-SLD에 대한 자세한 정보는 다음 링크를 참조하세요.   
+SLD에 대한 자세한 정보는 다음 링크를 참조하세요.  
 http://docs.geoserver.org/stable/en/user/styling/sld/reference/index.html#sld-reference
 
 </br>
@@ -388,29 +459,39 @@ http://docs.geoserver.org/stable/en/user/styling/sld/reference/index.html#sld-re
 국제 표준이기에 SLD를 지원하는 툴은 많고, 우리가 흔히 사용하는 QGIS에서도 SLD를 읽고 만들 수 있습니다. 하지만 아쉽게도 QGIS에서 만든 SLD는 GeoServer에서는 잘 적용되지 않습니다. 이것은 QGIS나 GeoServer가 표준을 지키지 않아 생기는 것이 아니라, 똑같은 웹페이지도 웹브라우저에 따라 조금씩 달리 보이는 것 처럼 각 프로그램에 어느정도 구현의 자유가 있기 때문입니다.
 그래서 GeoServer를 위한 SLD를 가장 잘 다루는 툴은, GeoTools를 핵심 엔진으로 사용하는 uDig 입니다.
 
-uDig은 좋은 데스크탑 GIS 프로그램입니다. 하지만, 다른 유명 오픈소스 GIS 프로그램들에 비하면 약간 덜 다듬어져 보입니다. 다른 툴들에 비해 속도가 좀 늦은 편입니다.
+uDig은 좋은 데스크탑 GIS 프로그램입니다. 하지만, 다른 유명 오픈소스 GIS 프로그램들에 비하면 약간 덜 다듬어져 보입니다. 다른 툴들에 비해 속도가 좀 늦은 편입니다.  
 
-uDig을 실행하고 [레이어 - 추가…] 메뉴를 선택합니다.   
+다음 [uDig 웹 페이지](http://udig.refractions.net/download/)에 가서 실행 파일을 다운로드 합니다.  
+`uDig 웹 페이지 > 다운로드 > Release 2.0.0 > Windows > x86_64 Zip`  
+
+압축 파일을 풀고, uDig 실행:  
+`\udig-2.0.0.win32.win32.x86_64\udig\udig_internal.exe`
+
+
+uDig을 실행되면, `레이어 - 추가…` 메뉴를 선택합니다.   
 ![](img/2022-02-02-16-45-50.png)
 
-데이터 원본 중 파일 항목을 선택하고 [다음>] 버튼을 누릅니다.
+데이터 원본 중 파일 항목을 선택하고 `다음>` 버튼을 누릅니다.
 
 GeoServer의 'data_dir' 폴더로 가서 'data/worldmap' 폴더 안의 3개 자료를 모두 선택하고 [열기] 버튼을 누릅니다.
 
 주요도시 포인트를 꾸며 보겠습니다.
 
-포인트 레이어를 선택하고 [스타일 변경…]을 선택합니다. 포인트의 형태를 Circle, 크기 7, 선색으로 갈색 계열 색, 채움색에 밝은 노란색선택합니다.
-레이블에 NAME 선택하고, 맑은 고딕 10포인트, 헤일로 밝은 노랑 두께 1 기준위치 middle, right 선택합니다.
+포인트 레이어를 선택하고 [스타일 변경…]을 선택합니다. 포인트의 형태를 Circle, 크기 7, 선색으로 갈색 계열 색, 채움색에 밝은 노란색 선택합니다.
+레이블에 NAME 선택하고, '맑은 고딕' 또는 'DejaVu Sans' 10포인트, 헤일로 밝은 노랑 두께 1, 기준위치 middle, right 선택합니다.
 
-[적용]을 누르고 지도를 보면서 원하는 모습이 나올 때까지 조정합니다.   
+[적용]을 누르고 지도를 보면서 원하는 모습이 나올 때까지 조정합니다.  
+심볼과 라벨과의 간격도 조정해보세요
+
 ![](img/2022-02-02-16-48-39.png)
  
-심볼을 다 조정했으면, [내보내기] 버튼을 눌러 'world_city.sld'로 c:\data 폴더에 저장합니다.
+심볼을 다 조정했으면, [내보내기] 버튼을 눌러 `world_city.sld`로 저장합니다.  
+`\geoserver_data\data\worldmap\`
 
-이제 다시 GeoServer 관리자 화면으로 갑니다.   
+이제 다시 GeoServer 관리자 화면으로 갑니다.  
 http://localhost:8080/geoserver 
 
-[스타일] 메뉴를 선택하고, [새로운 스타일 추가하기 버튼을 누릅니다.
+[스타일] 메뉴를 선택하고, 새로운 스타일 추가하기 버튼을 누릅니다.
 스타일 파일을 업로드 합니다. 아래의 [파일 선택] 버튼을 누르고, 조금 전에 저장한 'world_city.sld' 파일을 선택합니다.
 
 [업로드…] 버튼을 누르면 SLD 파일이 읽혀져 스타일 편집기에 들어옵니다.
@@ -418,7 +499,7 @@ http://localhost:8080/geoserver
 한글이 다 깨져 보이네요.   
 ![](img/2022-02-02-16-50-11.png)
 
-첫 줄의 encoding을 “CP949”로 바꾸고 Name 부분의 한글이 깨진 곳을 world_city로 바꿉니다. font-family 값을 ‘맑은 고딕’으로 바꾸고 [제출] 을 눌러 저장합니다.
+한글이 깨진 곳을 `world_city`로 바꿉니다. font-family 값을 `DejaVu Sans`으로 바꾸고 [제출] 을 눌러 저장합니다.
 
 [레이어] 메뉴로 가서 ne_110m_populated_places 레이어를 선택합니다.
 [발행] 탭을 선택하고 기본 스타일을 world_city로 바꾸고 [저장] 합니다.
@@ -433,14 +514,19 @@ http://localhost:8080/geoserver
 이는 그룹 레이어인 경우 처음에 그룹 레이어를 만들 때 지정된 기본 스타일을 기억하고 있기 때문입니다. 이를 바꿔주어야 합니다.
 
 [레이어 그룹] 메뉴를 선택하고, worldmap 레이어 그룹을  선택합니다.
-worldmap:ne_110m_admin_0_countries 레이어의 스타일로 world_admin,
-worldmap:ne_110m_populated_places 레이어의 스타일로 world_city를 선택하고 [저장]을 누릅니다.   
+worldmap:ne_110m_admin_0_countries 레이어의 스타일로 `world_admin`,
+worldmap:ne_110m_populated_places 레이어의 스타일로 `world_city`를 선택하고 [저장]을 누릅니다.   
 ![](img/2022-02-02-16-51-32.png) 
 
 아까 띄워 놓은 worldmap 레이어 그룹의 미리보기 화면에 가서 화면을 이동하면 이제 심볼이 바뀌어 보입니다.   
 ![](img/2022-02-02-16-54-57.png)
 
-어느 정도 확대된 정도까지만 도시들이 표시 되도록 '축척제어'를 적용하겠습니다. 이 때 중요한 정보가 미리보기 화면 좌하단에 있습니다. 현재 축척이 1 : 17M, 즉 1 : 17,000,000 이네요. 1 : 20,000,000 부터는 도시들이 사라지게 설정하겠습니다.   
+
+<br>
+
+### 축척 제어
+
+어느 정도 확대된 정도까지만 도시들이 표시 되도록 '축척제어'를 적용하겠습니다. 이 때 중요한 정보가 미리보기 화면 좌하단에 있습니다. 현재 축척이 1 : 17M, 즉 1 : 17,000,000 이네요. 1 : 20,000,000 부터는 도시들이 사라지게 설정하겠습니다.  
 ![](img/2022-02-02-16-54-43.png)
 
 [스타일] 메뉴로 가, world_city 스타일을 선택하고, 스타일 편집기에서 `<sld:PointSymbolyzer>`가 시작하는 부분을 찾아 그 앞에 다음 행을 넣어 줍니다.   
@@ -521,9 +607,10 @@ GeoServer에서 지원하는 지도타일 서버캐시를 GeoWebCache 줄여서 
 
 하지만, 실시간 좌표계 변환 기능은 매우 부하가 큰 기능입니다. 때문에 상용 서비스에서는 가능한 한 서비스할 좌표계로 모든 자료를 변환해 놓고 좌표계 변환 없이 서비스 될 수 있도록 해 줍니다.
 
-<br/>
+<br>
 
 다음 `OpenLayers` & `GeoServer` 과제에 도전해 보세요.
+(참고: [OpenLayers > Quick Start](https://openlayers.org/doc/quickstart.html))
 
 - 우리가 발행한 `worldmap:worldmap` 레이어 그룹을 WMS로 조회하는 WebGIS를 구현해보세요.
 - `worldmap:worldmap` 레이어 그룹을 GWC로 조회하는 WebGIS를 구현해보세요.
@@ -531,7 +618,146 @@ GeoServer에서 지원하는 지도타일 서버캐시를 GeoWebCache 줄여서 
 
 WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS) 를 확인하세요.
 
-<br/>
+<br>
+
+(도전 1) 첫 웹 지도 서비스 만들기: 다음 코드를 `ol_osm.html` 으로 작성하고, 웹 브라우저로 실행해보세요
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>My First Map APP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    #map {
+      width: 100%;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  처음 만드는 나의 웹 지도 서비스
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+  <script>
+    const map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM(),
+        }),
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([126.9780, 37.5665]), // 서울 시청 중심
+        zoom: 12,
+      }),
+    });
+  </script>
+  
+</body>
+</html>
+```
+
+<br>
+
+(도전 2) 나의 GeoServer WMS 서비스 만들기: 다음 코드를 `ol_mygeoserver.html` 으로 작성하고, 웹 브라우저로 실행해보세요
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>My GeoServer WMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    #map {
+      width: 300px;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+  <script>
+    const wmsLayer = new ol.layer.Tile({   // WMS 레이어 설정 (GeoServer 로컬 URL)
+      source: new ol.source.TileWMS({
+        url: 'http://localhost:8060/geoserver/wms',   // GeoServer WMS 엔드포인트
+        params: {
+          'LAYERS': 'worldmap:worldmap',   // GeoServer에 등록된 레이어 이름
+          'TILED': true
+        }
+      })
+    });
+
+    const map = new ol.Map({   // 지도 객체 생성
+      target: 'map',
+      layers: [wmsLayer],
+      view: new ol.View({
+        // center: ol.proj.fromLonLat([-98.5795, 39.8283]), // 미국 중심 좌표
+        center: ol.proj.fromLonLat([126.9780, 37.5665]), // 서울 시청 중심
+        zoom: 5
+      })
+    });
+  </script>
+</body>
+</html>
+```
+
+<br>
+
+(도전 3) 나의 첫 GWC 서비스 만들기: 나의 WMS 서비스 코드를 활용하여 GWC 서비스 코드를 작성하고 `ol_mygeoserver_gwc.html`, 웹 브라우저로 실행해보세요.
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>My GeoServer GWC</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    #map {
+      width: 300px;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+  <script>
+    const wmsLayer = new ol.layer.Tile({   // WMS 레이어 설정 (GeoServer 로컬 URL)
+      source: new ol.source.TileWMS({
+        url: 'http://localhost:8060/geoserver/gwc/service/wms',   // GeoServer WMS 엔드포인트
+        params: {
+          'LAYERS': 'worldmap:worldmap',   // GeoServer에 등록된 레이어 이름
+          'SRS': 'EPSG:3857'   // 좌표 참조 시스템 설정
+        }
+      })
+    });
+
+    const map = new ol.Map({   // 지도 객체 생성
+      target: 'map',
+      layers: [wmsLayer],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([126.9780, 37.5665]), // 서울 시청 중심
+        zoom: 5
+      })
+    });
+  </script>
+</body>
+</html>
+```
+<br>
+
+💡 웹 브라우저 `개발자 도구(F12)` 로 GWC 요청(Request)과 응답(Response)을 확인해보세요.  
+
+💡 GeoServer 데이터 폴더 GWC 캐시를 확인해보세요. `opt\geoserver\geoserver_data\gwc\`
+
+
+<br>
 
 ## 서비스를 위한 Stack 구성
 
