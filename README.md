@@ -620,7 +620,8 @@ WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozill
 
 <br>
 
-(도전 1) 첫 웹 지도 서비스 만들기: 다음 코드를 `ol_osm.html` 으로 작성하고, 웹 브라우저로 실행해보세요
+>[!TIP]
+> (도전 1) 첫 웹 지도 서비스 만들기: 다음 코드를 `ol_osm.html` 으로 작성하고, 웹 브라우저로 실행해보세요
 ```html
 <!DOCTYPE html>
 <html lang="ko">
@@ -755,7 +756,6 @@ WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozill
 > [!NOTE]
 > 1. 웹 브라우저 `개발자 도구(F12)` 로 GWC 요청(Request)과 응답(Response)을 확인해보세요.
 > 2. 파일 탐색기로 GeoServer 데이터 폴더에서 GWC 캐시를 확인해보세요. `opt\geoserver\geoserver_data\gwc\`
-
 
 <br>
 
