@@ -615,9 +615,6 @@ GeoServer에서 지원하는 지도타일 서버캐시를 GeoWebCache 줄여서 
 >
 > - 우리가 발행한 `worldmap:worldmap` 레이어 그룹을 WMS로 조회하는 WebGIS를 구현해보세요.
 > - `worldmap:worldmap` 레이어 그룹을 GWC로 조회하는 WebGIS를 구현해보세요.
-> - 우리가 발행한 `worldmap:ne_110m_admin_0_countries` 레이어를 WFS로 조회하는 WebGIS를 구현해보세요
->
-> WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS) 를 확인하세요.
 
 <br>
 
@@ -812,7 +809,7 @@ Code Editor로 httpd.conf 파일을 엽니다.
 우리가 만든 html 파일을 웹 서버에 포팅/전개 하겠습니다. 파일들을 `복사`해서 `붙여넣기` 하세요.
 `c:\Apache24\htdocs\`
 
-웹 브라우저에서 `http://localhost/ol_mygeoserver_gwc.html` 를 호출해 확인해 봅시다.  
+웹 브라우저에서 http://localhost/ol_mygeoserver_gwc.html 를 호출해 확인해 봅시다.  
 
 또 다음과 같이 코드를 수정하여 WEB-WAS 구성을 완성해 보세요.
 `개발자 도구(F12)`로 요청 URI를 확인하세요.
@@ -874,50 +871,94 @@ Code Editor로 httpd.conf 파일을 엽니다.
 >>mklink /D C:\Apache24\htdocs D:\APP\htdocs
 >>```
 >
-> 5. 다시 HTTPD를 시작하여 `http://localhost` 를 호출해 확인해 봅시다.  
+> 5. 다시 HTTPD를 시작하여 http://localhost 를 호출해 확인해 봅시다.  
+
+<br><br>
+
+> [!NOTE]
+> 우리가 발행한 `worldmap:ne_110m_admin_0_countries` 레이어를 WFS로 조회하는 WebGIS를 구현해보세요
+>
+> WFS 조회에서 [교차 출처 리소스 공유, CORS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS) 를 확인하세요.
 
 <br>
+
+다음과 같이 `ol_wfs.html`을 작성하여서 WFS(localhost) 조회가 동작함을 확인하세요.  
+
+<br>
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>GeoServer WFS + OSM</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    #map {
+      width: 600px;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+  <script>
+    // OSM 배경지도 레이어
+    const osmLayer = new ol.layer.Tile({
+      source: new ol.source.OSM()
+    });
+
+    // GeoServer WFS 벡터 레이어
+    const wfsLayer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: function(extent) {
+//          return '/geoserver/wfs?' +
+          return 'http://localhost:8060/geoserver/wfs?' +
+            'service=WFS&version=1.1.0&request=GetFeature&' +
+            'typename=ne_110m_admin_0_countries&' +                 // GeoServer 레이어 이름
+            'outputFormat=application/json&' +            // 응답 형식
+            'srsname=EPSG:4326&' +                        // 좌표계
+            'bbox=' + extent.join(',') + ',EPSG:4326';    // 현재 지도 범위
+        },
+        strategy: ol.loadingstrategy.bbox
+      }),
+      style: new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: '#0000ff',
+          width: 2
+        })
+      })
+
+    });
+
+    // 지도 객체 생성
+    const map = new ol.Map({
+      target: 'map',
+      layers: [osmLayer, wfsLayer],   // OSM + WFS 레이어 함께 추가
+      view: new ol.View({
+        center: ol.proj.fromLonLat([0, 0]), // 세계 중심
+        zoom: 1
+      })
+    });
+  </script>
+</body>
+</html>
+```
+
+<br>
+
+> [!NOTE]
+> PostGIS 를 Docker Container 설치하고, GeoServer 레이어로 등록해 보세요.
+>
+>
+>
 
 <br><br><br>
 
 ---
-
-<br><br><br>
-
-
-http://localhost 를 호출해 확인해 봅시다.  
-![](img/2022-02-02-19-47-08.png)
-
-<br/>
-
-다음과 같이 Vite.js 설정을 통해서 개발 환경의 Service Stack 을 구성할 수 있습니다.
-
-`vite.config.js`
-```js
-export default {
-  build: {
-    sourcemap: true,
-  },
-  server: {
-    port: 80,
-    proxy: {
-      '/geoserver': 'http://localhost:8080',
-    }
-  },
-}
-```
-
-Apache Httpd 서버 실행 없이 WFS(localhost)조회가 동작함을 확인하세요.   
-![](img/2022-02-02-22-56-52.png)
-
-<br/>
-
-다음 `OpenLayers` & `GeoServer` 과제에 도전해 보세요.
-
-- 우리가 발행한 `worldmap:ne_110m_admin_0_countries` 레이어로 `TrueSize` 를 구현해보세요.
-
-<br/><br/>
-
 The End
 
 <br>
