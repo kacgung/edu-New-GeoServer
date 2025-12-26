@@ -806,23 +806,83 @@ Code Editor로 httpd.conf 파일을 엽니다.
 ![](img/2022-02-02-18-05-56.png)
  
 이렇게 `:8080` 포트 지정 없이 geoserver를 호출할 수 있으면 성공입니다.
-이제 웹 포트인 80 포트로 GeoServer까지 통합된 것입니다. PostGIS는 GeoServer를 통해 연결할 수 있으니 우리가 원하는 스택을 모두 구성하였습니다.
+이제 웹 포트인 80 포트로 GeoServer까지 통합된 것입니다.  
 
-이제 우리 WebGIS를 80 웹 포트로 연결하여 이 폴더를 웹서비스에서 볼 수 있도록 설정해 보겠습니다.
+이제 우리가 만들었던 WebGIS를 Apache HTTPD 웹 서버로 서빙해보겠습니다.
+우리가 만든 html 파일을 웹 서버에 포팅/전개 하겠습니다. 파일들을 `복사`해서 `붙여넣기` 하세요.
+`c:\Apache24\htdocs\`
 
-DocumentRoot 로 지정된 폴더에 심볼릭 링크를 만들면, 여러 폴더를 통합해 줄 수 있습니다. httpd.conf 파일에서 DocumentRoot 부분을 수정해 HTML의 루트 경로를 바꿀 수도 있지만, 그보다는 심볼릭 링크를 이용하는 것이 여러 폴더를 체계적으로 관리하는데 유리합니다.
+웹 브라우저에서 `http://localhost/ol_mygeoserver_gwc.html` 를 호출해 확인해 봅시다.  
 
-먼저 우리 WebGIS 어플리케이션 번들을 생성하세요
+또 다음과 같이 코드를 수정하여 WEB-WAS 구성을 완성해 보세요.
+`개발자 도구(F12)`로 요청 URI를 확인하세요.
 
-    npm run build
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>My GeoServer GWC</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    #map {
+      width: 300px;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
 
-콘솔창을 실행하여 cd 명령으로 \Apache24 폴더로 갑니다.
+  <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+  <script>
+    const wmsLayer = new ol.layer.Tile({   // WMS 레이어 설정 (GeoServer 로컬 URL)
+      source: new ol.source.TileWMS({
+        // url: 'http://localhost:8060/geoserver/gwc/service/wms',   // GeoServer WMS 엔드포인트
+        url: '/geoserver/gwc/service/wms',   // GeoServer WMS 엔드포인트
+        params: {
+          'LAYERS': 'worldmap:worldmap',   // GeoServer에 등록된 레이어 이름
+          'SRS': 'EPSG:3857'   // 좌표 참조 시스템 설정
+        }
+      })
+    });
 
-윈도우에서 심볼릭 링크를 만들 수 있는 명령인 mklink를 이용해 심볼릭 링크를 생성해 줍니다. 
+    const map = new ol.Map({   // 지도 객체 생성
+      target: 'map',
+      layers: [wmsLayer],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([126.9780, 37.5665]), // 서울 시청 중심
+        zoom: 5
+      })
+    });
+  </script>
+</body>
+</html>
+```
 
-    mklink /D htdocs 'new-project'\dist
+<br>
 
-http://localhost 를 호출해 확인해 봅시다.   
+> [!NOTE]
+> HtmlDocumentRoot 로 지정된 폴더에 심볼릭 링크를 만들면, 여러 폴더를 통합해 줄 수도 있습니다. httpd.conf 파일에서 HtmlDocumentRoot 부분을 수정해 HTML의 루트 경로를 바꿀 수도 있지만, 그보다는 심볼릭 링크를 이용하는 것이 여러 폴더를 체계적으로 관리하는데 유리합니다.
+>
+>Apache HTTPD 웹 서버를 중지하고, htdocs 폴더 명을 살짝 변경하고, `관리자:명령 프롬프트`로 다음과 같이 심볼릭 링크를 생성해 줍니다.
+>
+>```Bash
+>mklink /D C:\Apache24\htdocs D:\APP\htdocs
+>```
+>
+> 다시 HTTPD를 시작하여 `http://localhost` 를 호출해 확인해 봅시다.  
+
+<br>
+
+<br><br><br>
+
+---
+
+<br><br><br>
+
+
+http://localhost 를 호출해 확인해 봅시다.  
 ![](img/2022-02-02-19-47-08.png)
 
 <br/>
