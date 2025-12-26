@@ -860,18 +860,21 @@ Code Editor로 httpd.conf 파일을 엽니다.
 </html>
 ```
 
-<br>
+<br><br>
 
 > [!NOTE]
 > HtmlDocumentRoot 로 지정된 폴더에 심볼릭 링크를 만들면, 여러 폴더를 통합해 줄 수도 있습니다. httpd.conf 파일에서 HtmlDocumentRoot 부분을 수정해 HTML의 루트 경로를 바꿀 수도 있지만, 그보다는 심볼릭 링크를 이용하는 것이 여러 폴더를 체계적으로 관리하는데 유리합니다.
 >
->Apache HTTPD 웹 서버를 중지하고, htdocs 폴더 명을 살짝 변경하고, `관리자:명령 프롬프트`로 다음과 같이 심볼릭 링크를 생성해 줍니다.
+> 1. Apache HTTPD 웹 서버를 중지하고,  
+> 2. htdocs 폴더 명을 살짝 변경하고,  
+> 3. html 파일을 이동하고 `D:\APP\htdocs`,  
+> 4. `관리자:명령 프롬프트`로 심볼릭 링크를 생성해 줍니다.
+>>
+>>```Bash
+>>mklink /D C:\Apache24\htdocs D:\APP\htdocs
+>>```
 >
->```Bash
->mklink /D C:\Apache24\htdocs D:\APP\htdocs
->```
->
-> 다시 HTTPD를 시작하여 `http://localhost` 를 호출해 확인해 봅시다.  
+> 5. 다시 HTTPD를 시작하여 `http://localhost` 를 호출해 확인해 봅시다.  
 
 <br>
 
