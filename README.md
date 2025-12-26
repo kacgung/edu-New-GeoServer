@@ -950,6 +950,24 @@ Code Editor로 httpd.conf 파일을 엽니다.
 
 <br>
 
+`개발자 도구(F12)`Console 을 통해 에러를 확인하세요.  
+
+![](img/2025-12-26-20-11-06.png)
+
+<br>
+
+`Request URI`를 직접 실행해서 응답을 확인해 보세요.  
+
+![](img/2025-12-26-20-12-41.png)
+
+<br>
+
+`CORS, 교차 출처 리소스 공유` 를 고려하여 코드를 수정하고, 다시 실행해 보세요.  
+
+![](img/2025-12-26-20-17-41.png)
+
+<br>
+
 > [!NOTE]
 > PostGIS 를 Docker Container 설치하고, GeoServer 레이어로 등록해 보세요.
 >
