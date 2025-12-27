@@ -992,7 +992,11 @@ Code Editor로 httpd.conf 파일을 엽니다.
 ```
 <br>
 
-Docker Compose 파일 작성:
+Docker Compose 파일 작성:  
+
+> https://hub.docker.com/r/postgis/postgis  
+> https://hub.docker.com/r/dpage/pgadmin4
+
 ```yml
 # docker-compose.yml
 
