@@ -1085,6 +1085,23 @@ passwd: postgres
 
 <br>
 
+'geoserver 컨테이너'가 'postgis 컨테이너'를 알 수 있도록 같은 Docker Network로 묶어주기
+```Bash
+# 공용 네트워크 생성 후 연결
+docker network create gs2pg
+docker network connect gs2pg geoserver
+docker network connect gs2pg postgis
+```
+
+<br>
+
+호스트 이름을 변경하기:
+```
+host *: postgis
+```
+
+<br>
+
 GeoServer > '레이어' > '새로운 레이어 추가하기' > 'worldmap:gisdb > '발행하기'
 
 여기서 꼭 세 가지 값을 확인해야 합니다.
