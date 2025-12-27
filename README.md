@@ -3,13 +3,14 @@
 > 인터넷에 공간정보를 서비스하는 GeoServer에 대해 배워보겠습니다.
 > 우리가 가지고 있는 공간 데이터를 인터넷에 제공하는 방법을 알아 보는 것입니다. 
 
-- [GeoServer 설치](#GeoServer-설치)
+- [GeoServer 설치(Docker Container)](#GeoServer-설치(Docker-Container))
 - [GeoServer 에 레이어 등록](#GeoServer-에-레이어-등록)
 - [OGC 웹서비스 이해](#OGC-웹서비스-이해)
 - [레이어 그룹과 스타일](#레이어-그룹과-스타일)
 - [uDig을 이용한 순쉬운 스타일링](#uDig을-이용한-순쉬운-스타일링)
 - [GWC를 이용한 캐시](#GWC를-이용한-캐시)
 - [서비스를 위한 Stack 구성](#서비스를-위한-Stack-구성)
+- [PostGIS 저장소로 GeoServer 레이어 발행하기](#PostGIS-저장소로-GeoServer-레이어-발행하기)
 
 <br>
 
@@ -17,14 +18,14 @@
 
 <br>
 
-## GeoServer 설치
+## GeoServer 설치(Docker Container)
 
-우선 무작정 데이터를 등록해 봅시다. [GeoServer](http://geoserver.org)가 없다면 설치하세요.  
+[GeoServer(http://geoserver.org)](http://geoserver.org) 가 없다면, 다음을 참고해서 GeoSerer 를 Docker Container 로 설치하세요.  
 [GeoServer User Manual » Installation » Docker Container](https://docs.geoserver.org/latest/en/user/installation/docker.html)
 
 <br>
-도커 컴포즈 파일을 작성하세요.
 
+GeoServer 설치 및 실행을 위해서 다음과 같이 Docker Compose 파일을 작성하세요.
 ```yml
 # docker-compose.yml
 
@@ -58,7 +59,6 @@ http://localhost:8080/geoserver
 
 (참고) 윈도우에 직접 설치하는 방법은 다음을 참고하세요.  
 [GeoServer User Manual » Installation » Windows installer](https://docs.geoserver.org/latest/en/user/installation/win_installer.html)
-
 
 
 <br>
@@ -973,14 +973,19 @@ Code Editor로 httpd.conf 파일을 엽니다.
 
 <br>
 
+## PostGIS 저장소로 GeoServer 레이어 발행하기
+
+<br>
+
 > [!NOTE]
 > PostGIS 를 Docker Container 설치하고, GeoServer 레이어로 등록해 보세요.
 >
 >   1. 'PostGIS + pgAdmin' Docker Container 설치
->   2. 'pgAdmin' 으로 'PostGIS' 에 공간 데이터 업로드/임폴드 
->   3. 'http://localhost:8080/geoserver' > '저장소' > '새로운 저장소 생성하기'
->   4. '레이어' > '새로운 레이어 추가하기' > '(선택) worldmap:gisdg' > '발행하기'
->   5. '레이어 미리보기' 로 확인
+>   2. 'pgAdmin' 으로 'PostGIS' 확인
+>   3. 'QGIS' 로 공간 데이터 업로드/임폴드
+>   4. 'GeoServer' 에 새로운 저장소 생성
+>   5. 'GeoServer' 에서 새로운 레이어 발행
+>   6. '레이어 미리보기' 로 확인
 
 <br>
 
