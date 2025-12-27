@@ -1100,7 +1100,7 @@ passwd: postgres
 > [!IMPORTANT]
 > GeoServer 를 Docker Container 로 설치 했기 때문에 'geoserver' 컨테이너 안에서 'localhost:5432' 연결 될 수 없습니다.  
 >
-> 컨테이너 내부의 'localhost' 는 그 컨테이너 자신을 가리키기 때문입니다. QGIS 에서 'locahost'를 호스트를 가리킵니다.  
+> 컨테이너 내부의 'localhost' 는 그 컨테이너 자신을 가리키기 때문입니다. QGIS 에서 'locahost'를 호스트를 가리킵니다.
 > 즉 'geoserver' 컨테이너에서 'localhost:5432'는 'postgis' 컨테이너를 가리키지 않습니다.
 >
 > 새로운 Docker Network 를 만들고, 'geoserver' 컨테이너와 'postgis' 컨테이너를 묶어주고, 컨테이너 이름을 호스트로 연결해야 합니다.
