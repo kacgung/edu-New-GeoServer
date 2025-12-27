@@ -25,7 +25,15 @@
 
 <br>
 
-GeoServer 설치 및 실행을 위해서 다음과 같이 Docker Compose 파일을 작성하세요.
+새 폴더 'geoserver' 만들기:
+```
+/geoserver
+  /geoserver_data
+  docker-compose.yml
+```
+<br>
+
+GeoServer 설치 및 실행을 위해서 다음과 같이 Docker Compose 파일을 작성:
 ```yml
 # docker-compose.yml
 
@@ -43,17 +51,16 @@ services:
 ```
 
 <br>
-도커 컨테이너를 생성하여, GeoServer 를 실행하세요.
+'/geoserver' 폴더에서 도커 컨테이너를 생성하여, GeoServer 실행:
 
 ```bash
 docker-compose up -d
 ```
 
 <br>
-웹 브라우저를 통해서 GeoServer 에 접속하세요.  
 
+웹 브라우저를 통해서 GeoServer 접속:  
 http://localhost:8080/geoserver
-
 
 <br>
 
