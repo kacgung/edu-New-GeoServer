@@ -3,14 +3,14 @@
 > 인터넷에 공간정보를 서비스하는 GeoServer에 대해 배워보겠습니다.
 > 우리가 가지고 있는 공간 데이터를 인터넷에 제공하는 방법을 알아 보는 것입니다. 
 
-- [GeoServer 설치(Docker Container)](#GeoServer-설치(Docker-Container))
+- [GeoServer 설치: Docker Container](#GeoServer-설치:-Docker-Container)
 - [GeoServer 레이어 등록](#GeoServer-레이어-등록)
 - [OGC 웹서비스 이해](#OGC-웹서비스-이해)
 - [레이어 그룹과 스타일](#레이어-그룹과-스타일)
 - [uDig을 이용한 순쉬운 스타일링](#uDig을-이용한-순쉬운-스타일링)
 - [GWC를 이용한 캐시](#GWC를-이용한-캐시)
 - [서비스를 위한 Stack 구성](#서비스를-위한-Stack-구성)
-- [(추가) PostGIS 저장소로 레이어 발행하기](#(추가)-PostGIS-저장소로-레이어-발행하기)
+- [PostGIS 저장소로 레이어 발행하기](#PostGIS-저장소로-레이어-발행하기)
 
 <br>
 
@@ -18,7 +18,7 @@
 
 <br>
 
-## GeoServer 설치(Docker Container)
+## GeoServer 설치: Docker Container
 
 [GeoServer(http://geoserver.org)](http://geoserver.org) 가 없다면, 다음을 참고해서 GeoSerer 를 Docker Container 로 설치하세요.  
 [GeoServer User Manual » Installation » Docker Container](https://docs.geoserver.org/latest/en/user/installation/docker.html)
