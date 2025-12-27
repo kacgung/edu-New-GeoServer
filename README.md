@@ -18,7 +18,7 @@
 
 <br>
 
-## GeoServer 설치: Docker Container
+## GeoServer 설치 Docker Container
 
 [GeoServer(http://geoserver.org)](http://geoserver.org) 가 없다면, 다음을 참고해서 GeoSerer 를 Docker Container 로 설치하세요.  
 [GeoServer User Manual » Installation » Docker Container](https://docs.geoserver.org/latest/en/user/installation/docker.html)
@@ -980,7 +980,7 @@ Code Editor로 httpd.conf 파일을 엽니다.
 
 <br>
 
-## (추가) PostGIS 저장소로 레이어 발행하기
+## PostGIS 저장소로 레이어 발행하기
 
 <br>
 
