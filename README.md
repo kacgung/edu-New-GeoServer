@@ -1,6 +1,7 @@
 # 공간데이터 배포 (GeoServer)
 
 > 인터넷에 공간정보를 서비스하는 GeoServer에 대해 배워보겠습니다.
+> 우리가 가지고 있는 공간 데이터를 인터넷에 제공하는 방법을 알아 보는 것입니다. 
 
 - [GeoServer 설치](#GeoServer-설치)
 - [GeoServer 에 레이어 등록](#GeoServer-에-레이어-등록)
@@ -975,8 +976,125 @@ Code Editor로 httpd.conf 파일을 엽니다.
 > [!NOTE]
 > PostGIS 를 Docker Container 설치하고, GeoServer 레이어로 등록해 보세요.
 >
->
->
+>   1. 'PostGIS + pgAdmin' Docker Container 설치
+>   2. 'pgAdmin' 으로 'PostGIS' 에 공간 데이터 업로드/임폴드 
+>   3. 'http://localhost:8080/geoserver' > '저장소' > '새로운 저장소 생성하기'
+>   4. '레이어' > '새로운 레이어 추가하기' > '(선택) worldmap:gisdg' > '발행하기'
+>   5. '레이어 미리보기' 로 확인
+
+<br>
+
+새 폴더 'postgis' 만들기:
+```
+/postgis
+  /pgdata
+  docker-compose.yml
+```
+<br>
+
+Docker Compose 파일 작성:
+```yml
+# docker-compose.yml
+
+services:
+  postgis:
+    image: postgis/postgis:17-3.5 # PostgreSQL 17 + PostGIS 3.5
+    container_name: postgis
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gisdb  # 디폴트 DB 이름
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data # (changed in PostgreSQL 18+) /var/lib/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4:8.14
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com   # 로그인 이메일
+      PGADMIN_DEFAULT_PASSWORD: admin          # 로그인 비밀번호
+    ports:
+      - "8070:80"   # 브라우저에서 http://localhost:8070 접속
+    # volumes:
+    #   - ./pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgis
+```
+<br>
+
+컨테이너 생성 및 실행:
+```Bash
+docker-compose up -d
+```
+<br>
+
+서버 등록하기: pgAdmin(http://localhost:8070) > 'Severs' > 'Register' > 'Server'
+```
+General > 
+  Name: postgis
+Connection > 
+  Host name/address: postgis
+  Port: 5432
+  Username: postgres
+```
+![](img/2025-12-27-17-39-44.png)
+
+<br>
+
+QGIS 로 gisdb 연결하기: QGIS > 탐색기 > PostgreSQL > 새 연결
+```
+이름: gisdb
+호스트: localhost
+포트: 5432
+SSL 모드: 사용불가
+사용자 이름: postgres
+비밀번호: postgres
+```
+![](img/2025-12-27-17-50-57.png)
+
+<br>
+
+QGIS 로 gisdb 에 공간 데이터 업로드 하기: QGIS > 데이터베이스 > DB 관리자 > PostGIS > gisdb > public > 레이어/파일 불러오기
+
+![](img/2025-12-27-17-56-52.png)
+![](img/2025-12-27-17-55-27.png)
+
+<br>
+
+GeoServer 'http://localhost:8080/geoserver' > '저장소' > '새로운 저장소 생성하기'
+
+```
+작업공간 *: worldmap
+데이터 저장소 이름 *: gisdg
+host *: localhost
+port *: 5432
+database: gisdb
+schema: public
+user postgres
+passwd: postgres
+```
+![](img/2025-12-27-16-47-08.png)
+
+<br>
+
+GeoServer > '레이어' > '새로운 레이어 추가하기' > 'worldmap:gisdb > '발행하기'
+
+여기서 꼭 세 가지 값을 확인해야 합니다.
+1. 정의한 좌표체계
+2. 원본 데이터 최소경계 영역
+3. 위/경도 영역
+
+![](img/2025-12-27-16-53-37.png)
+
+<br>
+
+'레이어 미리보기'
+![](img/2025-12-27-17-59-26.png)
+![](img/2025-12-27-17-59-51.png)
 
 <br><br><br>
 
