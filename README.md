@@ -4,13 +4,13 @@
 > 우리가 가지고 있는 공간 데이터를 인터넷에 제공하는 방법을 알아 보는 것입니다. 
 
 - [GeoServer 설치(Docker Container)](#GeoServer-설치(Docker-Container))
-- [GeoServer 에 레이어 등록](#GeoServer-에-레이어-등록)
+- [GeoServer 레이어 등록](#GeoServer-레이어-등록)
 - [OGC 웹서비스 이해](#OGC-웹서비스-이해)
 - [레이어 그룹과 스타일](#레이어-그룹과-스타일)
 - [uDig을 이용한 순쉬운 스타일링](#uDig을-이용한-순쉬운-스타일링)
 - [GWC를 이용한 캐시](#GWC를-이용한-캐시)
 - [서비스를 위한 Stack 구성](#서비스를-위한-Stack-구성)
-- [PostGIS 저장소로 GeoServer 레이어 발행하기](#PostGIS-저장소로-GeoServer-레이어-발행하기)
+- [PostGIS 저장소로 레이어 발행하기](#PostGIS-저장소로-레이어-발행하기)
 
 <br>
 
@@ -63,7 +63,7 @@ http://localhost:8080/geoserver
 
 <br>
 
-## GeoServer 에 레이어 등록
+## GeoServer 레이어 등록
 
 GeoServer를 실행해 주세요. 윈도우에 직접 설치한 경우는 [시작] 버튼을 누르고, GeoServer 안의 Start GeoServer를 선택하면 시작됩니다. 혹시 서비스로 설치하신 분은 자동으로 시작되어 있을 것입니다.
 
@@ -973,7 +973,7 @@ Code Editor로 httpd.conf 파일을 엽니다.
 
 <br>
 
-## PostGIS 저장소로 GeoServer 레이어 발행하기
+## PostGIS 저장소로 레이어 발행하기
 
 <br>
 
