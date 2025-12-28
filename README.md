@@ -81,7 +81,7 @@ GeoServer를 실행해 주세요. 윈도우에 직접 설치한 경우는 [시�
 
 `Layer Preview` 메뉴에 들어가보면 미리 등록된 여러 레이어들을 볼 수 있습니다. 이 레이어들은 인터넷 상에 공간정보를 서비스할 준비가 되어 있는 것입니다.
 
-GeoServer가 깔린 폴더에 있는 `data_dir` 폴더 아래의 `data` 폴더에 `worldmap` 이란 폴더를 만들어 주세요. 압축된 파일에서 다음 3개 레이어를 이 worldmap 폴더에 복사해 주세요. ESRI Shape 파일의 경우 이름이 같은 파일들을 모두 복사해야 함을 잊지 마세요.
+GeoServer가 깔린 폴더에 있는 `geoserver_data` 폴더 아래의 `data` 폴더에 `worldmap` 이란 폴더를 만들어 주세요. 압축된 파일에서 다음 3개 레이어를 이 worldmap 폴더에 복사해 주세요. ESRI Shape 파일의 경우 이름이 같은 파일들을 모두 복사해야 함을 잊지 마세요.
 
 - NE1_50M_SR_W.tif   
 - ne_110m_admin_0_countries.shp   
@@ -486,7 +486,7 @@ uDig을 실행되면, `레이어 - 추가…` 메뉴를 선택합니다.
 
 데이터 원본 중 파일 항목을 선택하고 `다음>` 버튼을 누릅니다.
 
-GeoServer의 'data_dir' 폴더로 가서 'data/worldmap' 폴더 안의 3개 자료를 모두 선택하고 [열기] 버튼을 누릅니다.
+GeoServer의 'geoserver_data ' 폴더로 가서 'data/worldmap' 폴더 안의 3개 자료를 모두 선택하고 [열기] 버튼을 누릅니다.
 
 주요도시 포인트를 꾸며 보겠습니다.
 
