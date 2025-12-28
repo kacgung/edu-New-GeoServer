@@ -1,6 +1,6 @@
 # 공간데이터 배포 (GeoServer)
 
-> 인터넷에 공간정보를 서비스하는 GeoServer에 대해 배워보겠습니다.
+> 인터넷에 공간정보를 서비스하는 GeoServer에 대해 배워보겠습니다.  
 > 우리가 가지고 있는 공간 데이터를 인터넷에 제공하는 방법을 알아 보는 것입니다. 
 
 - [GeoServer 설치 Docker Container](#GeoServer-설치-Docker-Container)
